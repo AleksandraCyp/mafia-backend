@@ -3,9 +3,8 @@ const { emitData, mapPlayers } = require("./generalActions");
 
 const makeEndDayVotingOffer = (type, offerer, offer, io) => {
   const gameManager = getGameManager(offerer.room) || {};
-  if (gameManager.phase === "night") return emitData(offerer, gameManager, io);
-  if (gameManager.endDayVoting.offeredBy)
-    return emitData(offerer, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (gameManager.endDayVoting.offeredBy) return;
   gameManager.endDayVoting.type = type;
   gameManager.endDayVoting.offeredBy = offerer;
   gameManager.endDayVoting.offers.push(offer);
@@ -43,9 +42,8 @@ const makeEndDayVotingOffer = (type, offerer, offer, io) => {
 
 const makeDecisionEndDayOffer = (player, decision, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (!gameManager.endDayVoting.offeredBy)
-    return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (!gameManager.endDayVoting.offeredBy) return;
   const agreements = gameManager.endDayVoting.agreements;
   agreements.push([player, decision]);
   gameManager.notifications.unshift({
@@ -105,13 +103,10 @@ const makeDecisionEndDayOffer = (player, decision, io) => {
 
 const makeEndDaySecondOffer = (type, player, offer, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (!gameManager.endDayVoting.offeredBy)
-    return emitData(player, gameManager, io);
-  if (gameManager.endDayVoting.offers[0].id !== player.id)
-    return emitData(player, gameManager, io);
-  if (gameManager.endDayVoting.offers.length !== 1)
-    return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (!gameManager.endDayVoting.offeredBy) return;
+  if (gameManager.endDayVoting.offers[0].id !== player.id) return;
+  if (gameManager.endDayVoting.offers.length !== 1) return;
   gameManager.endDayVoting.offers.push(offer);
   gameManager.endDayVoting.type2 = type;
   gameManager.notifications.unshift({
@@ -135,11 +130,10 @@ const makeEndDaySecondOffer = (type, player, offer, io) => {
 
 const makeVoteEndOfDay = (player, vote, type, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (gameManager.endDayVoting.offers.length !== 2)
-    return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (gameManager.endDayVoting.offers.length !== 2) return;
   if (gameManager.endDayVoting.votes.some((vote) => vote[0].id === player.id))
-    return emitData(player, gameManager, io);
+    return;
   gameManager.endDayVoting.votes.push([player, vote]);
   gameManager.notifications.unshift({
     text: `Zagłosowałeś na ${type === "kill" ? "zabicie" : "sprawdzenie"} ${

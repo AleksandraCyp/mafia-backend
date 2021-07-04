@@ -3,9 +3,9 @@ const { emitData, mapPlayers } = require("./generalActions");
 
 const makeOfferDuel = (offer, player, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (gameManager.duel.finished) return emitData(player, gameManager, io);
-  if (gameManager.duel.offeredBy) return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (gameManager.duel.finished) return;
+  if (gameManager.duel.offeredBy) return;
   gameManager.duel.offeredBy = player;
   gameManager.duel.offer = offer;
   gameManager.notifications.unshift({
@@ -81,10 +81,10 @@ const makeSędziaDecision = (decision, player, io) => {
   const gameManager = getGameManager(player.room) || {};
   const offeredBy = gameManager.duel.offeredBy;
   const offer = gameManager.duel.offer;
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (gameManager.duel.finished) return emitData(player, gameManager, io);
-  if (!gameManager.duel.offeredBy) return emitData(player, gameManager, io);
-  if (gameManager.duel.accepted) return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (gameManager.duel.finished) return;
+  if (!gameManager.duel.offeredBy) return;
+  if (gameManager.duel.accepted) return;
   gameManager.notifications.unshift({
     text: `Sędzia ${
       decision ? "wyraził zgodę" : "nie wyraził zgody"
@@ -137,13 +137,12 @@ const makeSędziaDecision = (decision, player, io) => {
 
 const makeDuelVote = (player, vote, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "night") return emitData(player, gameManager, io);
-  if (gameManager.duel.finished) return emitData(player, gameManager, io);
-  if (!gameManager.duel.offeredBy) return emitData(player, gameManager, io);
-  if (!gameManager.duel.offer) return emitData(player, gameManager, io);
-  if (!gameManager.duel.accepted) return emitData(player, gameManager, io);
-  if (gameManager.duel.votes.some((vote) => vote[0].id === player.id))
-    return emitData(player, gameManager, io);
+  if (gameManager.phase === "night") return;
+  if (gameManager.duel.finished) return;
+  if (!gameManager.duel.offeredBy) return;
+  if (!gameManager.duel.offer) return;
+  if (!gameManager.duel.accepted) return;
+  if (gameManager.duel.votes.some((vote) => vote[0].id === player.id)) return;
   const votes = gameManager.duel.votes;
   if (vote === "noVote") {
     gameManager.notifications.unshift({

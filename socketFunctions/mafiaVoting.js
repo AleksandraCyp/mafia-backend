@@ -3,7 +3,7 @@ const { emitData, tryChangingPhase } = require("./generalActions");
 
 const makeSuggestShot = (chosenPlayer, player, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "day") return emitData(player, gameManager, io);
+  if (gameManager.phase === "day") return;
   const mafiaPlayers = gameManager.players.filter(
     (item) => item.fraction === "Mafia"
   );
@@ -64,7 +64,7 @@ const makeSuggestShot = (chosenPlayer, player, io) => {
 
 const makeShoot = (chosenPlayer, player, io) => {
   const gameManager = getGameManager(player.room) || {};
-  if (gameManager.phase === "day") return emitData(player, gameManager, io);
+  if (gameManager.phase === "day") return;
   if (gameManager.mafiaVoting.chosenPlayer)
     return emitData(player, gameManager, io);
   gameManager.mafiaVoting.chosenPlayer = chosenPlayer;
