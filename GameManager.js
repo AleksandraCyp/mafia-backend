@@ -7,6 +7,7 @@ class GameManager {
       { text: "Zerowa noc.", to: this.characters },
       { text: "Gra rozpoczęła się.", to: this.characters },
     ];
+    this.messages = [];
     this.phase = "night";
     this.mafiaLeader = this.findMafiaLeader();
     this.currentDay = 0;
